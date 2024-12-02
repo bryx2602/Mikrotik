@@ -121,11 +121,11 @@ class Loginpage(tk.Frame):
         global APNBtnState
                 
         try:
-            if (ipaddress == 'IP Address' or username == 'Username' or password == 'Password' or port == 'Port #'):
+            if (ipaddress == '' or username == '' or password == '' or port == ''):
                 messagebox.showerror('Login error', 'Please input credentials')
             else:
                 router = ros_api.Api(ipaddress, user=username, password=password, verbose=False, use_ssl=False, port=port)
-                messagebox.showinfo("Login", "Login Successful")
+                # messagebox.showinfo("Login", "Login Successful")
                 self.controller.set_username(username)
                 self.controller.set_ipaddress(ipaddress)
                 self.controller.set_port(port)
@@ -269,19 +269,19 @@ class Mainpage(tk.Frame):
             if PrimaryStatus == "true":
                 self.RISE_label.configure(text=f"RISE: Inactive", fg="gray")
             else:
-                self.RISE_label.configure(text=f"RISE: Active", fg="black")
+                self.RISE_label.configure(text=f"RISE: Active", fg="blue", font=("Helvitica", 10, "bold"))
             
             # ~~~ PLDT ~~~ #
             if SecondaryStatus == "true":
                 self.PLDT_label.configure(text=f"PLDT: Inactive", fg="gray")
             else:
-                self.PLDT_label.configure(text=f"PLDT: Active", fg="black")
+                self.PLDT_label.configure(text=f"PLDT: Active", fg="red", font=("Helvitica", 10, "bold"))
             
             # ~~~ APN ~~~ #
             if TertiaryStatus == "true":
                 self.APN_label.configure(text=f"APN: Inactive", fg="gray")
             else:
-                self.APN_label.configure(text=f"APN: Active", fg="black")
+                self.APN_label.configure(text=f"APN: Active", fg="green", font=("Helvitica", 10, "bold"))
             
             #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
         
@@ -377,20 +377,20 @@ class Mainpage(tk.Frame):
         
         #~~~ ISP Status ~~~#
         
-        self.Status_label = tk.Label(self.System, text="ISP Status", bg="white", font=("Helvitica", 13))
-        self.Status_label.place(x="10", y="50")
+        self.Status_label = tk.Label(self.System, text="ISP STATUS", bg="white", font=("Helvitica", 13, "bold"))
+        self.Status_label.place(x="45", y="20")
         
         self.RISE_label = tk.Label(self.System, text="RISE:", fg="black", bg="white", font=("Helvitica", 13))
-        self.RISE_label.place(x="10", y="100")
+        self.RISE_label.place(x="10", y="70")
         
         self.PLDT_label = tk.Label(self.System, text="PLDT:", bg="white", font=("Helvitica", 13))
-        self.PLDT_label.place(x="10", y="150")
+        self.PLDT_label.place(x="10", y="110")
         
         self.APN_label = tk.Label(self.System, text="APN:", bg="white", font=("Helvitica", 13))
-        self.APN_label.place(x="10", y="200")
+        self.APN_label.place(x="10", y="150")
         
-        self.System_label = tk.Label(self.System, text="Router Health", bg="white", font=("Helvitica", 13))
-        self.System_label.place(x="10", y="250")
+        self.System_label = tk.Label(self.System, text="ROUTER HEALTH", bg="white", font=("Helvitica", 13, "bold"))
+        self.System_label.place(x="23", y="200")
         
     def update_welcome_message(self, username):
         self.Welcome.configure(text=f'Login as {username}')
@@ -507,6 +507,7 @@ class Application(tk.Tk):
     # ~~~ APN ~~~ #
     def Tertiary_Status(self, TertiaryStatus):
         self.TertiaryStatus = TertiaryStatus
-        
+            
+
 app = Application()
 app.mainloop()

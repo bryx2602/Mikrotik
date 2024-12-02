@@ -1,5 +1,4 @@
 import tkinter as tk
-import customtkinter as ctk
 from tkinter import ttk
 from tkinter import *
 from tkinter import messagebox
@@ -25,12 +24,14 @@ class Loginpage(tk.Frame):
         label.image=logo
         label.place(x=315, y=50)
         
-        self.border = ctk.CTkFrame(self, fg_color="white", border_width=2, corner_radius=10, border_color="#31A3DD")
+        self.border = tk.LabelFrame(self, background="white", highlightbackground="#f2f2f2")
         self.border.pack(fill="both", expand="no", padx=250, pady=150)
         
-        self.login_label = tk.Label(self.border, text="Login to ISP Switch", background="white", font=("Calibre", 13))
-        self.login_label.pack(pady=10)
+        self.login_label = tk.Label(self.border, text="Login to ISP Switch", background="white", font=("Arial", 13))
+        self.login_label.pack()
 
+        # BUTTON HOVER STYLING
+        
         def on_enter(e):
             self.port_entry.delete(0,'end')
         
@@ -56,7 +57,7 @@ class Loginpage(tk.Frame):
                 self.user_entry.insert(0,'Username')
                 
         def on_enter3(e):
-            self.password_entry.delete(0,'end')  
+            self.password_entry.delete(0,'end')
 
         def on_leave3(e):
             password=self.password_entry.get()
@@ -68,87 +69,80 @@ class Loginpage(tk.Frame):
         style.theme_use("clam")
         
         #Port
-        port_label = tk.Label(self.border, text="Port#:", font=("Calibre", 8), bg=self.border['bg'])
-        port_label.pack(anchor="w", padx=75)
         self.portvar = StringVar()
-        self.port_entry = ctk.CTkEntry(self.border, width=150, fg_color="white", font=('Calibre', 10), border_color="#31A3DD", text_color="gray")
+        self.port_entry = ttk.Entry(self.border, width=20, foreground="gray", font=('Calibre', 10))
         self.port_entry.pack(pady=12, padx=10)
+        self.port_entry.insert(0, "Port #")
+        self.port_entry.bind('<FocusIn>', on_enter)
+        self.port_entry.bind('<FocusOut>', on_leave)
         
         #ipaddress
-        ipaddress_label = tk.Label(self.border, text="IPaddress:", font=("Calibre", 8))
-        ipaddress_label.pack(anchor="w", padx=75)
         self.ipaddressvar = StringVar()
-        self.ipaddress_entry = ctk.CTkEntry(self.border, width=150, fg_color="white", font=('Calibre', 10), border_color="#31A3DD", text_color="gray")
+        self.ipaddress_entry = ttk.Entry(self.border, width=20, foreground="gray", font=('Calibre', 10))
         self.ipaddress_entry.pack(pady=12, padx=10)
-        self.ipaddress_entry.insert(0, "")
+        self.ipaddress_entry.insert(0, "IP Address")
         self.ipaddress_entry.bind('<FocusIn>', on_enter1)
         self.ipaddress_entry.bind('<FocusOut>', on_leave1)
         
         #username
-        username_label = tk.Label(self.border, text="Username:", font=("Calibre", 8))
-        username_label.pack(anchor="w", padx=75)
-        self.user_entry = ctk.CTkEntry(self.border, width=150, fg_color="white", font=('Calibre', 10), border_color="#31A3DD", text_color="gray")
+        self.user_entry = ttk.Entry(self.border, width=20, foreground="gray", font=('Calibre', 10))
         self.user_entry.pack(pady=12, padx=10)
-        self.user_entry.insert(0, "")
+        self.user_entry.insert(0, "Username")
         self.user_entry.bind('<FocusIn>', on_enter2)
         self.user_entry.bind('<FocusOut>', on_leave2)
         
-        ##31A3DD
-        password_label = tk.Label(self.border, text="Password:", font=("Calibre", 8))
-        password_label.pack(anchor="w", padx=75)
-        self.password_entry = ctk.CTkEntry(self.border, width=150, fg_color="white", font=('Calibre', 10), border_color="#31A3DD", text_color="gray", show="*")
+        #password
+        self.password_entry = ttk.Entry(self.border, width=20, foreground="gray", font=('Calibre', 10))
         self.password_entry.pack(pady=12, padx=10)
-        self.password_entry.insert(0, "")
+        self.password_entry.insert(0, "Password")
         self.password_entry.bind('<FocusIn>', on_enter3)
         self.password_entry.bind('<FocusOut>', on_leave3)
         
-        Button = ctk.CTkButton(
-            self.border,
-            text="Login",
-            fg_color="#0099ff",       
-            text_color="white",       
-            hover_color="green",     
-            border_width=0,           
-            command=self.verify,
-            corner_radius=5,         
-            width=150,                
-            height=25,                
-        )
-        Button.pack(pady=10, padx=10)
+        Button = tk.Button(self.border, text="Login", width=20,
+                            background="#0099ff",
+                            foreground="white",
+                            activebackground="#008ae6",
+                            activeforeground="white",
+                            highlightthickness=2,
+                            highlightbackground="#0099ff",
+                            highlightcolor="white",
+                            border=0,
+                            command=self.verify)
+        Button.pack(pady=12, padx=10)
         
         
     def verify(self):
                 
-        # port = self.port_entry.get()
-        # ipaddress = self.ipaddress_entry.get()
-        # username = self.user_entry.get()
-        # password = self.password_entry.get()
-        # global router
-        # global PrimaryStatus
-        # # global SecondaryStatus
-        # global RISEBtnState
-        # # global PLDTBtnState
+        port = self.port_entry.get()
+        ipaddress = self.ipaddress_entry.get()
+        username = self.user_entry.get()
+        password = self.password_entry.get()
+        global router
+        global PrimaryStatus
+        # global SecondaryStatus
+        global RISEBtnState
+        # global PLDTBtnState
                 
-        # if (ipaddress == '' or username == '' or password == ''):
-        #     messagebox.showerror('Login error', 'Please input credentials')
-        # else:
-            # try:
-            #     router = ros_api.Api(ipaddress, user=username, password=password, verbose=False, use_ssl=False, port=port)
-            #     messagebox.showinfo("Login", "Login Successful")
-            #     self.controller.set_username(username)
-            #     self.controller.set_ipaddress(ipaddress)
-            #     self.controller.set_port(port)
+        if (ipaddress == '' or username == '' or password == ''):
+            messagebox.showerror('Login error', 'Please input credentials')
+        else:
+            try:
+                router = ros_api.Api(ipaddress, user=username, password=password, verbose=False, use_ssl=False, port=port)
+                messagebox.showinfo("Login", "Login Successful")
+                self.controller.set_username(username)
+                self.controller.set_ipaddress(ipaddress)
+                self.controller.set_port(port)
                 
-            #     #~~~ Router Identity ~~~#
-            #     routerResponse = router.talk('/system/identity/print')
-            #     print(routerResponse)
-            #     identity = routerResponse[0]
+                #~~~ Router Identity ~~~#
+                routerResponse = router.talk('/system/identity/print')
+                print(routerResponse)
+                identity = routerResponse[0]
 
-            #     identityKeys = list(identity.keys())
-            #     identityName = identityKeys[1]
-            #     identityValue = identity[identityName]
+                identityKeys = list(identity.keys())
+                identityName = identityKeys[1]
+                identityValue = identity[identityName]
                 
-            #     self.controller.set_identity(identityValue)
+                self.controller.set_identity(identityValue)
                 
                 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ISP STATUS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
                 
@@ -187,8 +181,8 @@ class Loginpage(tk.Frame):
                 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
                 self.controller.show_frame(Mainpage)
                 
-            # except:
-            #     messagebox.showinfo("Login Error", "Incorrect credentials")
+            except:
+                messagebox.showinfo("Login Error", "Incorrect credentials")
             
 
 class Mainpage(tk.Frame):
@@ -329,7 +323,7 @@ class Mainpage(tk.Frame):
         self.Status_label = tk.Label(self.System, text="ISP Status", bg="white", font=("Helvitica", 13))
         self.Status_label.place(x="10", y="50")
         
-        self.RISE_label = tk.Label(self.System, text="EASTERN:", fg="black", bg="white", font=("Helvitica", 13))
+        self.RISE_label = tk.Label(self.System, text="", fg="black", bg="white", font=("Helvitica", 13))
         self.RISE_label.place(x="10", y="100")
         
         self.PLDT_label = tk.Label(self.System, text="PLDT:", bg="white", font=("Helvitica", 13))
